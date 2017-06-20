@@ -1,6 +1,6 @@
 package com.ghawk1ns.server.route;
 
-import com.ghawk1ns.server.Util;
+import com.ghawk1ns.server.UserAuth;
 import com.ghawk1ns.server.model.Session;
 import com.ghawk1ns.server.response.BaseResponse;
 import com.ghawk1ns.server.response.GenericError;
@@ -25,6 +25,8 @@ public abstract class BaseRoute implements Route {
     public static String CLIENT_ID_KEY = "clientId";
     public static String RIG_ID_KEY = "rigId";
 
+    public static String AUTH_HEADER = "Authorization";
+
     private final boolean requireAuth;
 
     protected BaseRoute(boolean requireAuth) {
@@ -36,11 +38,13 @@ public abstract class BaseRoute implements Route {
         Session session = null;
         if (requireAuth) {
             String clientId = request.queryParams(CLIENT_ID_KEY);
-            String rigId = request.queryParams(RIG_ID_KEY);
-            if (Util.nullOrEmpty(clientId, rigId)) {
-                return new GenericError(response, "Missing clientId and/or rigId");
+            String auth = request.headers(AUTH_HEADER);
+            UserAuth user = UserAuth.getUser(clientId, auth);
+
+            if (user == null) {
+                return new GenericError(response, "Missing token, clientId and/or rigId");
             } else {
-                session = new Session(clientId, rigId);
+                session = new Session(user, request.queryParams(RIG_ID_KEY));
             }
         }
         return handle(request, response, session);

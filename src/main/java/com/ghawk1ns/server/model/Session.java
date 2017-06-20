@@ -1,12 +1,14 @@
 package com.ghawk1ns.server.model;
 
+import com.ghawk1ns.server.UserAuth;
+
 public class Session {
 
-    public final String clientId;
+    public final UserAuth user;
     public final String rigId;
 
-    public Session(String clientId, String rigId) {
-        this.clientId = clientId;
+    public Session(UserAuth user, String rigId) {
+        this.user = user;
         this.rigId = rigId;
     }
 }

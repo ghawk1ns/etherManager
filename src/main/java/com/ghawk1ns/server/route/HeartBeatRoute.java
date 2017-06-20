@@ -25,9 +25,9 @@ public class HeartBeatRoute extends BaseRoute {
     public BaseResponse handle(Request request, Response response, Session session) throws Exception {
         String remove = request.queryParamOrDefault(PARAM_REMOVE, "false");
         if ("true".equals(remove)) {
-            manager.remove(session.clientId, session.rigId);
+            manager.remove(session.user, session.rigId);
         } else {
-            manager.update(session.clientId, session.rigId);
+            manager.update(session.user, session.rigId);
         }
         return new HeartBeatResponse(response, 200, false);
     }
