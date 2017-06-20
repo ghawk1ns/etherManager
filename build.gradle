@@ -1,0 +1,28 @@
+group 'com.ghawk1ns'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin:'application'
+
+mainClassName = "com.ghawk1ns.Main"
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // http://sparkjava.com/
+    // underlying server framekwork
+    compile "com.sparkjava:spark-core:2.6.0"
+    // JSON deserialization
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.0.pr4'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    compile group: 'commons-cli', name: 'commons-cli', version: '1.2'
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
+    compile  group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+    // heartbeat notifications
+    compile group: "com.twilio.sdk", name: "twilio", version: "7.11.+"
+    // Testing
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}

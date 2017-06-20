@@ -1,0 +1,39 @@
+package com.ghawk1ns.server.route;
+
+
+import com.ghawk1ns.server.Util;
+import com.ghawk1ns.server.heartbeat.HeartBeatManager;
+import com.ghawk1ns.server.model.Session;
+import com.ghawk1ns.server.response.BaseResponse;
+import com.ghawk1ns.server.response.HeartBeatResponse;
+import spark.Request;
+import spark.Response;
+
+public class HeartBeatRoute extends BaseRoute {
+
+    private final HeartBeatManager manager;
+
+    // True if clientId-rigId should be removed from heartbeat monitoring
+    public static String PARAM_REMOVE = "remove";
+
+    public HeartBeatRoute(HeartBeatManager manager) {
+        super(true);
+        this.manager = manager;
+    }
+
+    @Override
+    public BaseResponse handle(Request request, Response response, Session session) throws Exception {
+        String remove = request.queryParamOrDefault(PARAM_REMOVE, "false");
+        if ("true".equals(remove)) {
+            manager.remove(session.clientId, session.rigId);
+        } else {
+            manager.update(session.clientId, session.rigId);
+        }
+        return new HeartBeatResponse(response, 200, false);
+    }
+
+    @Override
+    public String path() {
+        return Util.createPath(API_VER_1, API_PATH, "heartbeat");
+    }
+}
