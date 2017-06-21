@@ -40,7 +40,7 @@ public class HeartBeatManager {
         UserRigs.rigs.computeIfAbsent(rigId, k -> createAlarm(user, rigId));
     }
 
-    public synchronized void remove(UserAuth user, String rigId) {
+    public synchronized void stop(UserAuth user, String rigId) {
         if (activeRigs.containsKey(user.clientId)) {
             activeRigs.get(user.clientId)
                     .rigs.computeIfPresent(rigId, (s, alarm) -> {
@@ -49,7 +49,7 @@ public class HeartBeatManager {
                 return null;
             });
         }  else {
-            logger.info("Can't remove, No current heartbeat for {}-{}", user.clientId, rigId);
+            logger.info("Can't stop, No current heartbeat for {}-{}", user.clientId, rigId);
         }
     }
 

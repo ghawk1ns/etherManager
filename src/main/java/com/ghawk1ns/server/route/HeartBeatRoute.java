@@ -14,7 +14,7 @@ public class HeartBeatRoute extends BaseRoute {
     private final HeartBeatManager manager;
 
     // True if clientId-rigId should be removed from heartbeat monitoring
-    public static String PARAM_REMOVE = "remove";
+    public static String PARAM_STOP = "stop";
 
     public HeartBeatRoute(HeartBeatManager manager) {
         super(true);
@@ -23,9 +23,9 @@ public class HeartBeatRoute extends BaseRoute {
 
     @Override
     public BaseResponse handle(Request request, Response response, Session session) throws Exception {
-        String remove = request.queryParamOrDefault(PARAM_REMOVE, "false");
+        String remove = request.queryParamOrDefault(PARAM_STOP, "false");
         if ("true".equals(remove)) {
-            manager.remove(session.user, session.rigId);
+            manager.stop(session.user, session.rigId);
         } else {
             manager.update(session.user, session.rigId);
         }
