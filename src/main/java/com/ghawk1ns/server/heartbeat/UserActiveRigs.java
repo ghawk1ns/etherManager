@@ -60,7 +60,7 @@ public class UserActiveRigs {
     private void hashRate(RigStats currentStats, String rigId) {
         double lastHash = lastStats.hash;
         double currentHash = currentStats.hash;
-        if (lastHash > currentHash) {
+        if (lastHash - currentHash > 20) {
             logger.info("hash decrease for {}-{} last:{} now:{}", user.clientId, rigId, lastHash, currentHash);
             final long now = System.currentTimeMillis();
             if (now - lastHashNotification > hashThrottleLength) {
