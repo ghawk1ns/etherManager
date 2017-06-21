@@ -3,6 +3,7 @@ package com.ghawk1ns.server.heartbeat;
 import com.ghawk1ns.Logger;
 import com.ghawk1ns.server.TwilioManager;
 import com.ghawk1ns.server.UserAuth;
+import com.ghawk1ns.server.model.Session;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,16 +29,19 @@ public class HeartBeatManager {
         TwilioManager.send(user.sms, msg);
     }
 
-    public synchronized void update(UserAuth user, String rigId) {
+    public synchronized void update(Session session, String rigId) {
+        UserAuth user = session.user;
         // Try to initialize a new client
         activeRigs.computeIfAbsent(user.clientId, s -> UserActiveRigs.fromUser(user));
-        UserActiveRigs UserRigs = activeRigs.get(user.clientId);
-        UserRigs.rigs.computeIfPresent(rigId, (s, alarm) -> {
+        UserActiveRigs userRigs = activeRigs.get(user.clientId);
+        userRigs.rigs.computeIfPresent(rigId, (s, alarm) -> {
             boolean cancel = alarm.cancel(true);
             logger.info("Heartbeat received for {}-{}: success cancel existing alarm: {}", user.clientId, rigId, cancel);
             return null;
         });
-        UserRigs.rigs.computeIfAbsent(rigId, k -> createAlarm(user, rigId));
+        userRigs.rigs.computeIfAbsent(rigId, k -> createAlarm(user, rigId));
+        // Check stats and notify if necessary
+        userRigs.updateStats(session.stats, rigId);
     }
 
     public synchronized void stop(UserAuth user, String rigId) {

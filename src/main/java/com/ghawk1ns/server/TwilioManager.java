@@ -26,6 +26,6 @@ public class TwilioManager {
         Message.Status status = message.getStatus();
         DateTime created = message.getDateCreated();
         DateTime sent = message.getDateSent();
-        logger.info("sid={} status={}, created={} sent={}", sid, status.toString(), created.toString(), sent.toString());
+        logger.info("sid={} status={}, created={} sent={}", sid, status, created, sent);
     }
 }

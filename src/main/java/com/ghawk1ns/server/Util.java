@@ -27,4 +27,49 @@ public class Util {
     public static String createPath(String ver, String path, String action) {
         return String.format("%s/%s/%s", ver, path, action);
     }
+
+    /**
+     *
+     * @return an int from a string or 0 if it failed
+     */
+    public static int stoi(String raw) {
+        if (nullOrEmpty(raw)) {
+            return 0;
+        }
+        try {
+            return Integer.valueOf(raw);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    /**
+     *
+     * @return a double from a string or 0 if it failed
+     */
+    public static double stod(String raw) {
+        if (nullOrEmpty(raw)) {
+            return 0;
+        }
+        try {
+            return Double.valueOf(raw);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    /**
+     *
+     * @return a long from a string or 0 if it failed
+     */
+    public static long stol(String raw) {
+        if (nullOrEmpty(raw)) {
+            return 0;
+        }
+        try {
+            return Long.valueOf(raw);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
 }

@@ -29,7 +29,7 @@ public class Server {
 
     public void start() {
         Spark.init();
-        get(new HeartBeatRoute(heartBeatManager));
+        post(new HeartBeatRoute(heartBeatManager));
         // TODO logging and auth
         post(new UpdateRoute());
     }

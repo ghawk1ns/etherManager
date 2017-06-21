@@ -6,6 +6,7 @@ public class Session {
 
     public final UserAuth user;
     public final String rigId;
+    public RigStats stats;
 
     public Session(UserAuth user, String rigId) {
         this.user = user;

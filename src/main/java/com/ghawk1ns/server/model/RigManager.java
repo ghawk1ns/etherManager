@@ -10,7 +10,7 @@ import java.util.Map;
 public class RigManager {
 
     @JsonProperty("rigs")
-    Map<String, Rig> rigs;
+    Map<String, RigStats> rigs;
 
     @JsonProperty("total_hash")
     public double totalHash;
