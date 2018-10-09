@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public enum UserAuth {
 
-    me("gMe", "kfgK#hgZHgg(B70B^(*n4", "18327581044");
+    me("gMe", "kfgK#hgZHgg(B70B^(*n4", null);
 
     public final String clientId;
     public final String token;
